@@ -16,7 +16,7 @@ import br.com.cit.controller.ControllerMain;
 public class ControllerMainTest {
 	@Test
 	public void createImageTest() {
-		String path = "/src/main/resources/vale_icon.png";
+		String path = "/src/main/resources/img/vale_icon.png";
 		String descricao = "try icon";
 		Assert.assertEquals(ControllerMain.createImage(path, descricao), new ImageIcon(path,descricao).getImage());
 	}
