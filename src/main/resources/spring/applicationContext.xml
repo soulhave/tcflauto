@@ -7,6 +7,7 @@
     http://www.springframework.org/schema/context
     http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
+	<context:property-placeholder location="/src/main/resources/config.properties" />
 	<context:annotation-config />
 
 	<!-- Template de dados de conexão -->
@@ -14,7 +15,7 @@
 		<property name="environment">
 			<props>
 				<prop key="java.naming.factory.initial">com.tibco.tibjms.naming.TibjmsInitialContextFactory</prop>
-				<prop key="java.naming.provider.url">tcp://zeno.cit:7222</prop>
+				<prop key="java.naming.provider.url">${ems.url}</prop>
 			</props>
 		</property>
 	</bean>
@@ -25,22 +26,27 @@
 		<property name="jndiName" value="QueueConnectionFactory" />
 	</bean>
 
+	<!-- Connection Factory -->
 	<bean id="myConnectionFactory" class="org.springframework.jms.connection.UserCredentialsConnectionFactoryAdapter">
 		<property name="targetConnectionFactory">
 			<ref bean="jmsConnectionFactory" />
 		</property>
 		<property name="username">
-			<value>admin</value>
+			<value>${ems.user}</value>
 		</property>
 		<property name="password">
-			<value>XcmRCgqg/VjFGPZcxoX3aw==</value>
+			<value>${ems.password}</value>
 		</property>
 	</bean>
 
 	<!-- Listener que irá escutar a fila -->
 	<bean id="faturamentoMessageListener" class="br.com.cit.jms.listener.FaturamentoListener">
 		<property name="connectionFactory" ref="jmsConnectionFactory" />
-		<property name="queueName" value="VALE.BR.LG.DEV.EAI.LOGISTICBILLINGCTE.01.REQUEST" />
-		<property name="selectors" value="UNICOM2" />
+		<property name="queueName">
+			<value>${ems.xml.output.unicom}</value>
+		</property>
+		<property name="selectors">
+			<value>${ems.seletor}</value>
+		</property>
 	</bean>
 </beans>
