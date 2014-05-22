@@ -11,7 +11,6 @@ import java.awt.event.ActionListener;
 
 import javax.jms.JMSException;
 import javax.swing.ImageIcon;
-import javax.swing.JFrame;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
@@ -25,10 +24,15 @@ import br.com.cit.jms.listener.FaturamentoListener;
  * 
  */
 public class ControllerMain {
+	
+	private static final String ON_START_STOP = "startStop";
+	private static final String ON_EXIT = "exit";
 	private static final String FATURAMENTO_MESSAGE_LISTENER = "faturamentoMessageListener";
 	private static final String STOP = "Stop";
 	private static final String START = "Start";
-
+	
+	private static MenuItem startStop;
+	private static MenuItem exitItem;
 
 	/**
 	 * Metodo principal
@@ -46,35 +50,13 @@ public class ControllerMain {
         final SystemTray tray = SystemTray.getSystemTray();
        
         // Create a pop-up menu components
-        final MenuItem startStop = new MenuItem(START);
-        startStop.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if(startStop.getLabel().equals(START)){
-					startStop.setLabel(STOP);
-					ApplicationContext context = new FileSystemXmlApplicationContext("D:/Ambiente-ControleEntregas/workspace/tcflAuto/src/main/resources/spring/applicationContext.xml");
-					FaturamentoListener faturamentoListener = (FaturamentoListener) context.getBean(FATURAMENTO_MESSAGE_LISTENER);
-					try {
-						faturamentoListener.start();
-					} catch (JMSException e1) {
-						e1.printStackTrace();
-					}
-				}else{
-					startStop.setLabel(START);
-				}					
-			}
-		});
+        startStop = new MenuItem(START);
+        startStop.addActionListener(Acao.getInstance());
+        startStop.setActionCommand(ON_START_STOP);
         
-        MenuItem exitItem = new MenuItem("Sair");
-       
-        //Adicionando evento
-        exitItem.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.exit(JFrame.EXIT_ON_CLOSE);
-				System.out.println("Fechando.");
-			}
-		});
+        exitItem = new MenuItem("Sair");
+        exitItem.setActionCommand(ON_EXIT);
+        exitItem.addActionListener(Acao.getInstance());
 
         //Add components to pop-up menu
         popup.add(startStop);
@@ -99,6 +81,61 @@ public class ControllerMain {
 	 */
 	public static Image createImage(String path, String strId) {
 		return new ImageIcon(path, strId).getImage();
+	}
+
+
+	/**
+	 * Inicia a escuta do Listener e para 
+	 * @param startStop
+	 */
+	private static void onStopStartListener(final MenuItem startStop) {
+		ApplicationContext context = new FileSystemXmlApplicationContext("D:/Ambiente-ControleEntregas/workspace/tcflAuto/src/main/resources/spring/applicationContext.xml");
+		FaturamentoListener faturamentoListener = (FaturamentoListener) context.getBean(FATURAMENTO_MESSAGE_LISTENER);
+		try {
+			if(startStop.getLabel().equals(START)){
+				startStop.setLabel(STOP);
+				faturamentoListener.start();
+			}else{
+				startStop.setLabel(START);
+				faturamentoListener.stop();;
+			}					
+		} catch (JMSException e1) {
+			e1.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Classe responsável pelos eventos.
+	 * @author ramon
+	 *
+	 */
+	private static final class Acao implements ActionListener {
+
+		private static Acao S_INSTANCE;
+		
+		/**
+		 * Static singletone
+		 * @return
+		 */
+		public static Acao getInstance() {
+			if(S_INSTANCE==null)
+				S_INSTANCE = new Acao();
+			return S_INSTANCE;
+		}
+		
+		private Acao() {}
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			//Start stop
+			if(ON_START_STOP.equals(e.getActionCommand())){
+				onStopStartListener(startStop);
+			}
+			//Start stop
+			if(ON_EXIT.equals(e.getActionCommand())){
+				System.exit(0);
+			}
+		}
 	}
 	
 }

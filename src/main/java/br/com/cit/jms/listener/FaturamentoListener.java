@@ -10,19 +10,41 @@ import javax.jms.MessageListener;
 import javax.jms.Session;
 import javax.jms.TextMessage;
 
+/**
+ * Lister que escuta a fila de faturamento.
+ * @author ramon
+ *
+ */
 public class FaturamentoListener implements MessageListener, ExceptionListener{
 
+	private static Connection CONNECTION;
+	
 	private ConnectionFactory connectionFactory;
 	private String queueName;
 	private String selectors;
 	
+	/**
+	 * Start o listener
+	 * @throws JMSException
+	 */
 	public void start() throws JMSException {
-        Connection connection = connectionFactory.createConnection();
-        Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+        CONNECTION = connectionFactory.createConnection();
+        Session session = CONNECTION.createSession(false, Session.AUTO_ACKNOWLEDGE);
         MessageConsumer consumer = session.createConsumer(session.createQueue(queueName));
         consumer.setMessageListener(this);
-        connection.start();
+        CONNECTION.start();
     }
+	
+	/**
+	 * Para o processo de listener.
+	 * @throws JMSException
+	 */
+	public void stop() throws JMSException {
+		if(CONNECTION!=null){
+			CONNECTION.stop();
+			CONNECTION.close();
+		}
+	}
 	
 	@Override
 	public void onMessage(Message arg0) {
