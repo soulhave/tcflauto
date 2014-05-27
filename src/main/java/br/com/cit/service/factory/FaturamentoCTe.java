@@ -16,5 +16,10 @@ public class FaturamentoCTe implements IFaturamento{
 
 	public void setCte(RequestBillingElement cte) {
 		this.cte = cte;
+	}
+
+	@Override
+	public RequestBillingElement getAssociado() {
+		return null;
 	} 
 }

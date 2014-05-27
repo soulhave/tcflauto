@@ -28,4 +28,9 @@ public class FaturamentoCTeCTMC implements IFaturamento{
 	public void setCtmc(RequestBillingElement ctmc) {
 		this.ctmc = ctmc;
 	}
+
+	@Override
+	public RequestBillingElement getAssociado() {
+		return getCtmc();
+	}
 }

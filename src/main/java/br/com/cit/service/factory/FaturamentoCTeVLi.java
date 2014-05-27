@@ -28,4 +28,9 @@ public class FaturamentoCTeVLi implements IFaturamento{
 	public void setcTeVLI(RequestBillingElement cTeVLI) {
 		this.cTeVLI = cTeVLI;
 	}
+
+	@Override
+	public RequestBillingElement getAssociado() {
+		return getcTeVLI();
+	}
 }

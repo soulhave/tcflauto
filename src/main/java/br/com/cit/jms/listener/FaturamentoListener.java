@@ -55,7 +55,8 @@ public class FaturamentoListener implements MessageListener, ExceptionListener{
 			if(arg0 instanceof TextMessage){
 				TextMessage x = (TextMessage)arg0;
 				IFaturamento bindObjectCte = ProcessarRecebimentoMensagemService.getInstance().bindObjectCte(x.getText());
-				System.out.println(bindObjectCte.getClass().getSimpleName()+" "+bindObjectCte.getCte().getHeaderRequestBilling().getIdentifySystem()+" "+bindObjectCte.getCte().getHeaderRequestBilling().getProvisoryNumberNF());
+				
+				System.out.println(bindObjectCte.getClass().getSimpleName()+" "+bindObjectCte.getCte().getHeaderRequestBilling().getIdentifySystem()+" CTE-"+bindObjectCte.getCte().getHeaderRequestBilling().getProvisoryNumberNF()+(bindObjectCte.getAssociado()!=null?" ASSOCIADO-"+bindObjectCte.getAssociado().getHeaderRequestBilling().getProvisoryNumberNF():""));
 			}
 		} catch (JMSException e) {
 			e.printStackTrace();
