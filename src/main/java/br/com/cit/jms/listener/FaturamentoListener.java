@@ -10,6 +10,9 @@ import javax.jms.MessageListener;
 import javax.jms.Session;
 import javax.jms.TextMessage;
 
+import br.com.cit.service.ProcessarRecebimentoMensagemService;
+import br.com.cit.service.factory.IFaturamento;
+
 /**
  * Lister que escuta a fila de faturamento.
  * @author ramon
@@ -51,7 +54,8 @@ public class FaturamentoListener implements MessageListener, ExceptionListener{
 		try {
 			if(arg0 instanceof TextMessage){
 				TextMessage x = (TextMessage)arg0;
-				System.out.println("XML="+x.getText());
+				IFaturamento bindObjectCte = ProcessarRecebimentoMensagemService.getInstance().bindObjectCte(x.getText());
+				System.out.println(bindObjectCte.getClass().getSimpleName()+" "+bindObjectCte.getCte().getHeaderRequestBilling().getIdentifySystem()+" "+bindObjectCte.getCte().getHeaderRequestBilling().getProvisoryNumberNF());
 			}
 		} catch (JMSException e) {
 			e.printStackTrace();

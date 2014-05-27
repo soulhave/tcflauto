@@ -33,6 +33,7 @@ public class ControllerMain {
 	
 	private static MenuItem startStop;
 	private static MenuItem exitItem;
+	private static ApplicationContext context;
 
 	/**
 	 * Metodo principal
@@ -89,7 +90,7 @@ public class ControllerMain {
 	 * @param startStop
 	 */
 	private static void onStopStartListener(final MenuItem startStop) {
-		ApplicationContext context = new FileSystemXmlApplicationContext("D:/Ambiente-ControleEntregas/workspace/tcflAuto/src/main/resources/spring/applicationContext.xml");
+		context = new FileSystemXmlApplicationContext("D:/Ambiente-ControleEntregas/workspace/tcflAuto/src/main/resources/spring/applicationContext.xml");
 		FaturamentoListener faturamentoListener = (FaturamentoListener) context.getBean(FATURAMENTO_MESSAGE_LISTENER);
 		try {
 			if(startStop.getLabel().equals(START)){
@@ -101,6 +102,7 @@ public class ControllerMain {
 			}					
 		} catch (JMSException e1) {
 			e1.printStackTrace();
+		}finally{
 		}
 	}
 	
@@ -136,6 +138,15 @@ public class ControllerMain {
 				System.exit(0);
 			}
 		}
+	}
+
+	public static ApplicationContext getContext() {
+		return context;
+	}
+
+
+	public static void setContext(ApplicationContext context) {
+		ControllerMain.context = context;
 	}
 	
 }

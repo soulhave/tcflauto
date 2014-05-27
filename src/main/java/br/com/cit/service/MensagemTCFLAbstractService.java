@@ -5,6 +5,6 @@ package br.com.cit.service;
  * @author ramon
  *
  */
-public abstract class MensagemTCFLService {
+public abstract class MensagemTCFLAbstractService {
 	
 }

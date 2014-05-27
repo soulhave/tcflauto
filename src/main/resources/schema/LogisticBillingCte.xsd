@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	xmlns:ns1="http://www.vale.com/CM/UnifComercial/LogisticBilling/Schema"
-	xmlns:jxb="http://java.sun.com/xml/ns/jaxb" jxb:version="2.0"
-	targetNamespace="http://www.vale.com/CM/UnifComercial/LogisticBilling/Schema"
-	elementFormDefault="qualified" attributeFormDefault="unqualified">
+<!-- edited with XMLSpy v2005 rel. 3 U (http://www.altova.com) by CVRD (Cia. Vale do Rio Doce) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://www.vale.com/CM/UnifComercial/LogisticBilling/Schema" xmlns:jxb="http://java.sun.com/xml/ns/jaxb" jxb:version="1.0" targetNamespace="http://www.vale.com/CM/UnifComercial/LogisticBilling/Schema" elementFormDefault="qualified" attributeFormDefault="unqualified">
 	<xs:annotation>
         <xs:appinfo>
             <jxb:schemaBindings>
-                <jxb:package name="br.com.cit.jaxb.generate"/>
+                <jxb:package name="com.vale.sc.unificacaocomercial.unicom.invokerlegacy.outfaturamentocte.model.entity"/>
                 <jxb:nameXmlTransform>
                     <jxb:elementName suffix="Element"/>
                 </jxb:nameXmlTransform>
@@ -40,7 +37,14 @@
 				          </xs:sequence>
                        </xs:complexType>
                    </xs:element>                    
-                   <xs:element name="requestBillingCTMC">
+                   <xs:element name="requestBillingCTMC" minOccurs="0">
+                        <xs:complexType>
+                          <xs:sequence>
+                            <xs:element ref="ns1:RequestBilling"/>
+                          </xs:sequence>
+                       </xs:complexType>
+                   </xs:element>
+                   <xs:element name="requestBillingCTeVLI" minOccurs="0">
                         <xs:complexType>
                           <xs:sequence>
                             <xs:element ref="ns1:RequestBilling"/>
@@ -189,16 +193,10 @@
 									</xs:restriction>
 								</xs:simpleType>
 							</xs:element>
-							<xs:element name="ERPCode" minOccurs="0">
+							<xs:element name="ERPCode" type="xs:string" minOccurs="0">
 								<xs:annotation>
-									<xs:documentation>Código de integração ERP</xs:documentation>
+									<xs:documentation>Codigo do ERP</xs:documentation>
 								</xs:annotation>
-								<xs:simpleType>
-									<xs:restriction base="xs:string">
-										<xs:minLength value="3"></xs:minLength>
-										<xs:maxLength value="3"></xs:maxLength>
-									</xs:restriction>
-								</xs:simpleType>
 							</xs:element>
 						</xs:sequence>
 					</xs:complexType>
@@ -706,8 +704,7 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
-
-				<xs:element name="takeoutLocalInfo" minOccurs="0" maxOccurs="1">
+				<xs:element name="takeoutLocalInfo" minOccurs="0">
 					<xs:annotation>
 						<xs:documentation>Informacoes de local de Retirada</xs:documentation>
 					</xs:annotation>
@@ -729,15 +726,15 @@
 								</xs:annotation>
 								<xs:simpleType>
 									<xs:restriction base="xs:string">
-										<xs:minLength value="3"></xs:minLength>
-										<xs:maxLength value="6"></xs:maxLength>
+										<xs:minLength value="3"/>
+										<xs:maxLength value="6"/>
 									</xs:restriction>
 								</xs:simpleType>
 							</xs:element>
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
-				<xs:element name="deliveryLocalInfo" minOccurs="0" maxOccurs="1">
+				<xs:element name="deliveryLocalInfo" minOccurs="0">
 					<xs:annotation>
 						<xs:documentation>Informacoes de local de Retirada</xs:documentation>
 					</xs:annotation>
@@ -759,15 +756,15 @@
 								</xs:annotation>
 								<xs:simpleType>
 									<xs:restriction base="xs:string">
-										<xs:minLength value="3"></xs:minLength>
-										<xs:maxLength value="6"></xs:maxLength>
+										<xs:minLength value="3"/>
+										<xs:maxLength value="6"/>
 									</xs:restriction>
 								</xs:simpleType>
 							</xs:element>
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>					
-				<xs:element name="CTeInfo" minOccurs="0" maxOccurs="1">
+				<xs:element name="CTeInfo" minOccurs="0">
 								<xs:annotation>
 									<xs:documentation>Informacoes de CT-e</xs:documentation>
 								</xs:annotation>
@@ -835,8 +832,7 @@
 												</xs:restriction>
 											</xs:simpleType>
 										</xs:element>
-										
-										<xs:element name="takerServiceInfo" maxOccurs="1">
+							<xs:element name="takerServiceInfo">
 											<xs:annotation>
 												<xs:documentation>Informações do tomador</xs:documentation>
 											</xs:annotation>
@@ -912,7 +908,7 @@
 							</xs:sequence>
 						</xs:complexType>
 					</xs:element>
-				<xs:element name="RaywayModalInfo" minOccurs="0" maxOccurs="1">
+				<xs:element name="RaywayModalInfo" minOccurs="0">
 								<xs:annotation>
 									<xs:documentation>Informações do Modal Ferroviário.</xs:documentation>
 								</xs:annotation>
@@ -938,26 +934,20 @@
 										</xs:element>
 										<xs:element name="flowSourceStationCode" type="xs:string">
 											<xs:annotation>
-												<xs:documentation>Código da Estação de Origem do Fluxo Ferroviário.</xs:documentation>
+									<xs:documentation>Codigo Estação de Origem do Fluxo</xs:documentation>
 											</xs:annotation>
 										</xs:element>
 										<xs:element name="flowDestinationStationCode" type="xs:string" >
 											<xs:annotation>
-												<xs:documentation>Código da Estação de Destino do Fluxo Ferroviário.</xs:documentation>
+									<xs:documentation>Codigo Estação de Destino do Fluxo</xs:documentation>
 											</xs:annotation>
 										</xs:element>
-										<xs:element name="sourceTerminalCode" minOccurs="0">
+							<xs:element name="sourceTerminalCode" type="xs:string" minOccurs="0">
 											<xs:annotation>
-												<xs:documentation>Código do Terminal de Origem do Fluxo Ferroviário.</xs:documentation>
+									<xs:documentation>Código do Terminal da Origem</xs:documentation>
 											</xs:annotation>
-											<xs:simpleType>
-												<xs:restriction base="xs:string">
-													<xs:minLength value="0"></xs:minLength>
-													<xs:maxLength value="7"></xs:maxLength>
-												</xs:restriction>
-											</xs:simpleType>
 										</xs:element>										
-										<xs:element name="mutalTrafficInfo" minOccurs="0" maxOccurs="1">
+							<xs:element name="mutalTrafficInfo" minOccurs="0">
 											<xs:annotation>
 												<xs:documentation>Informações de Tráfego Mútuo.</xs:documentation>
 											</xs:annotation>
@@ -1047,7 +1037,7 @@
 															</xs:sequence>
 														</xs:complexType>
 													</xs:element>	
-													<xs:element name="wagonApportionmentInfo" minOccurs="0" maxOccurs="1">
+										<xs:element name="wagonApportionmentInfo" minOccurs="0">
 														<xs:annotation>
 															<xs:documentation>Informações de Rateio dos Vagões.</xs:documentation>
 														</xs:annotation>
@@ -1105,7 +1095,7 @@
 									</xs:sequence>									
 								</xs:complexType>
 					</xs:element>
-				<xs:element name="LoadInfo" minOccurs="0"  maxOccurs="1">
+				<xs:element name="LoadInfo" minOccurs="0">
 								<xs:annotation>
 									<xs:documentation>Informações da Carga do CT-e.</xs:documentation>
 								</xs:annotation>
@@ -1170,7 +1160,7 @@
 								</xs:annotation>
 								<xs:complexType>
 									<xs:sequence>
-										<xs:element name="paperPreviousDocInfo"  maxOccurs="unbounded" minOccurs="0">
+										<xs:element name="paperPreviousDocInfo" minOccurs="0" maxOccurs="unbounded">
 											<xs:annotation>
 												<xs:documentation>Identificação do Documento Anterior.</xs:documentation>
 											</xs:annotation>
@@ -1199,7 +1189,6 @@
 																</xs:restriction>
 															</xs:simpleType>
 														</xs:element>
-														
 														<xs:element name="previousDocSerie"  type="xs:string" minOccurs="0">
 															<xs:annotation>
 																<xs:documentation>Numero Serie.</xs:documentation>
@@ -1223,7 +1212,7 @@
 												</xs:sequence>
 											</xs:complexType>
 										</xs:element>
-										<xs:element name="eletronicPreviousDocInfo"  maxOccurs="unbounded" minOccurs="0">
+										<xs:element name="eletronicPreviousDocInfo" minOccurs="0" maxOccurs="unbounded">
 											<xs:annotation>
 												<xs:documentation>Identificação do Documento Anterior.</xs:documentation>
 											</xs:annotation>
@@ -1277,7 +1266,7 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
-			    <xs:element name="InfoCTEReplacement" minOccurs="0" maxOccurs="1">
+				<xs:element name="InfoCTEReplacement" minOccurs="0">
                                 <xs:annotation>
                                     <xs:documentation>Informações específicas do CTe substituição.</xs:documentation>
                                 </xs:annotation>
@@ -1294,7 +1283,7 @@
                                                     </xs:restriction>
                                             </xs:simpleType>
                                         </xs:element>
-                                        <xs:element name="taxDocumentIdentifier"  maxOccurs="1">
+							<xs:element name="taxDocumentIdentifier">
                                             <xs:annotation>
                                                 <xs:documentation>Identificação do Documento Fiscal.</xs:documentation>
                                             </xs:annotation>
@@ -1310,8 +1299,7 @@
                                                             <xs:documentation>Chave de acesso do CT-e emitido pelo Tomador, caso seja contribuinte do ICMS ou Chave de acesso do CT-e de Anulação, caso não seja contribuinte do ICMS.</xs:documentation>
                                                         </xs:annotation>
                                                     </xs:element>
-                                                    
-		                                            <xs:element name="InfoTaxDocumentTaker"  minOccurs="0" maxOccurs="1">
+										<xs:element name="InfoTaxDocumentTaker" minOccurs="0">
 			                                            <xs:annotation>
 			                                                <xs:documentation>Informações do Documento Fiscal emitido pelo Tomador.</xs:documentation>
 			                                            </xs:annotation>
@@ -1418,8 +1406,6 @@
                         </xs:restriction>
                     </xs:simpleType>
                 </xs:element>
-
-		
 				<xs:element name="dateProcess" type="xs:dateTime">
 					<xs:annotation>
 						<xs:documentation>Data do processamento</xs:documentation>
