@@ -28,23 +28,4 @@ public class ProcessarRecebimentoMensagemService extends MensagemTCFLAbstractSer
 		return S_INSTANCE;
 	}
 	
-	/**
-	 * 
-	 * @param xml
-	 * @return
-	 */
-	public IFaturamento bindObjectCte(String xml){
-		JAXBContext jc;
-		try {
-			InputStream input = new ByteArrayInputStream(xml.getBytes());
-			jc = JAXBContext.newInstance("br.com.cit.jaxb.generated");
-			Unmarshaller unmarshaller = jc.createUnmarshaller();
-			Object retornoSolicitacao = unmarshaller.unmarshal(input);
-			return FaturamentoFactory.getInstance().createFactory(retornoSolicitacao);
-		} catch (JAXBException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-	
 }
