@@ -4,6 +4,7 @@ import br.com.cit.jaxb.generated.CompositeRequestBillingElement;
 import br.com.cit.jaxb.generated.CompositeRequestBillingElement.RequestBillingCTE;
 import br.com.cit.jaxb.generated.CompositeRequestBillingElement.RequestBillingCTMC;
 import br.com.cit.jaxb.generated.CompositeRequestBillingElement.RequestBillingCTeVLI;
+import br.com.cit.jaxb.generated.LegacyAckElement;
 import br.com.cit.jaxb.generated.RequestBillingElement;
 
 public class FaturamentoFactory {
@@ -30,12 +31,16 @@ public class FaturamentoFactory {
 		return new FaturamentoCTeVLi(ctevli, ctevli);
 	}
 	
+	private AckCTe getAckCTe(LegacyAckElement ackElement){
+		return new AckCTe(ackElement);
+	}
+	
 	/**
 	 * 
 	 * @param o
 	 * @return
 	 */
-	public IFaturamento createFactory(Object o) {
+	public IXml createFactory(Object o) {
 		if(o instanceof RequestBillingElement){
 			RequestBillingElement requestBilling = (RequestBillingElement)o;
 			return getFaturamentoCTe(requestBilling);
@@ -57,6 +62,8 @@ public class FaturamentoFactory {
 			//REtorna CTe sozinho
 			if(requestBillingCTeVLI==null && requestBillingCTMC==null)
 				return getFaturamentoCTe(requestBillingCTe.getRequestBilling());
+		}else if(o instanceof LegacyAckElement){
+			return getAckCTe((LegacyAckElement)o);
 		}
 		
 		return null;

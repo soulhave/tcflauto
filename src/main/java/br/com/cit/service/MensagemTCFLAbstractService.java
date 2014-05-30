@@ -8,7 +8,7 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
 import br.com.cit.service.factory.FaturamentoFactory;
-import br.com.cit.service.factory.IFaturamento;
+import br.com.cit.service.factory.IXml;
 
 /**
  * 
@@ -25,17 +25,28 @@ public abstract class MensagemTCFLAbstractService {
 	 * @param xml
 	 * @return
 	 */
-	public IFaturamento bindObjectCte(String xml){
-		JAXBContext jc;
+	public IXml bindObjectCte(String xml){
 		try {
-			InputStream input = new ByteArrayInputStream(xml.getBytes());
-			jc = JAXBContext.newInstance(JAXB);
-			Unmarshaller unmarshaller = jc.createUnmarshaller();
-			Object retornoSolicitacao = unmarshaller.unmarshal(input);
-			return FaturamentoFactory.getInstance().createFactory(retornoSolicitacao);
+			return lerDadosRetornar(xml);
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		}
 		return null;
 	}
+
+	/**
+	 * 
+	 * @param xml
+	 * @return
+	 * @throws JAXBException
+	 */
+	public IXml lerDadosRetornar(String xml) throws JAXBException {
+		JAXBContext jc;
+		InputStream input = new ByteArrayInputStream(xml.getBytes());
+		jc = JAXBContext.newInstance(JAXB);
+		Unmarshaller unmarshaller = jc.createUnmarshaller();
+		Object retornoSolicitacao = unmarshaller.unmarshal(input);
+		return FaturamentoFactory.getInstance().createFactory(retornoSolicitacao);
+	}
+	
 }

@@ -1,14 +1,5 @@
 package br.com.cit.service;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
-
-import br.com.cit.service.factory.FaturamentoFactory;
-import br.com.cit.service.factory.IFaturamento;
 
 /**
  * 

@@ -39,11 +39,31 @@
 		</property>
 	</bean>
 
-	<!-- Listener que irá escutar a fila -->
+	<bean id="processarEnvioMensagemService" class="br.com.cit.service.ProcessarEnvioMensagemService">
+		<property name="connectionFactory" ref="jmsConnectionFactory" />
+			<property name="queueName">
+				<value>${ems.xml.input.unicom}</value>
+			</property>
+			<property name="selectors">
+				<value>${ems.seletor}</value>
+			</property>	
+	</bean>
+
+	<!-- Listener que irá escutar a fila de faturamento-->
 	<bean id="faturamentoMessageListener" class="br.com.cit.jms.listener.FaturamentoListener">
 		<property name="connectionFactory" ref="jmsConnectionFactory" />
 		<property name="queueName">
 			<value>${ems.xml.output.unicom}</value>
+		</property>
+		<property name="selectors">
+			<value>${ems.seletor}</value>
+		</property>
+	</bean>
+	<!-- Listener que irá escutar a fila -->
+	<bean id="ackMessageListener" class="br.com.cit.jms.listener.AckListener">
+		<property name="connectionFactory" ref="jmsConnectionFactory" />
+		<property name="queueName">
+			<value>${ems.xml.ack.unicom}</value>
 		</property>
 		<property name="selectors">
 			<value>${ems.seletor}</value>

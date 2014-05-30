@@ -13,9 +13,10 @@ import javax.jms.JMSException;
 import javax.swing.ImageIcon;
 
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.FileSystemXmlApplicationContext;
 
+import br.com.cit.jms.listener.AckListener;
 import br.com.cit.jms.listener.FaturamentoListener;
+import br.com.cit.util.UtilJMS;
 
 /**
  * Open try
@@ -27,7 +28,6 @@ public class ControllerMain {
 	
 	private static final String ON_START_STOP = "startStop";
 	private static final String ON_EXIT = "exit";
-	private static final String FATURAMENTO_MESSAGE_LISTENER = "faturamentoMessageListener";
 	private static final String STOP = "Stop";
 	private static final String START = "Start";
 	
@@ -90,22 +90,26 @@ public class ControllerMain {
 	 * @param startStop
 	 */
 	private static void onStopStartListener(final MenuItem startStop) {
-		context = new FileSystemXmlApplicationContext("D:/Ambiente-ControleEntregas/workspace/tcflAuto/src/main/resources/spring/applicationContext.xml");
-		FaturamentoListener faturamentoListener = (FaturamentoListener) context.getBean(FATURAMENTO_MESSAGE_LISTENER);
+		context = UtilJMS.obterContexto();
+		FaturamentoListener faturamentoListener = (FaturamentoListener) context.getBean(UtilJMS.FATURAMENTO_MESSAGE_LISTENER);
+		AckListener ackListener = (AckListener) context.getBean(UtilJMS.ACK_MESSAGE_LISTENER);
+		
 		try {
 			if(startStop.getLabel().equals(START)){
 				startStop.setLabel(STOP);
 				faturamentoListener.start();
+				ackListener.start();
 			}else{
 				startStop.setLabel(START);
-				faturamentoListener.stop();;
+				faturamentoListener.stop();
 			}					
 		} catch (JMSException e1) {
 			e1.printStackTrace();
 		}finally{
 		}
 	}
-	
+
+
 	/**
 	 * Classe responsável pelos eventos.
 	 * @author ramon
